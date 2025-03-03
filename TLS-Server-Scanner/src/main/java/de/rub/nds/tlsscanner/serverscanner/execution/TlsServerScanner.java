@@ -236,15 +236,15 @@ public final class TlsServerScanner
             registerProbeForExecution(
                     new SignatureHashAlgorithmOrderProbe(configSelector, parallelExecutor));
             registerProbeForExecution(new TlsFallbackScsvProbe(configSelector, parallelExecutor));
-            afterList.add(new Sweet32AfterProbe<>());
-            afterList.add(new FreakAfterProbe<>());
-            afterList.add(new LogjamAfterProbe<>());
-            afterList.add(new ServerRandomnessAfterProbe());
-            afterList.add(new EcPublicKeyAfterProbe<>());
-            afterList.add(new DhValueAfterProbe());
-            afterList.add(new PaddingOracleIdentificationAfterProbe<>());
-            afterList.add(new RaccoonAttackAfterProbe());
-            afterList.add(new CertificateSignatureAndHashAlgorithmAfterProbe());
+            registerProbeForExecution(new Sweet32AfterProbe<>());
+            registerProbeForExecution(new FreakAfterProbe<>());
+            registerProbeForExecution(new LogjamAfterProbe<>());
+            registerProbeForExecution(new ServerRandomnessAfterProbe());
+            registerProbeForExecution(new EcPublicKeyAfterProbe<>());
+            registerProbeForExecution(new DhValueAfterProbe());
+            registerProbeForExecution(new PaddingOracleIdentificationAfterProbe<>());
+            registerProbeForExecution(new RaccoonAttackAfterProbe());
+            registerProbeForExecution(new CertificateSignatureAndHashAlgorithmAfterProbe());
             // DTLS-specific
             registerProbeForExecution(new DtlsReorderingProbe(configSelector, parallelExecutor));
             registerProbeForExecution(new DtlsFragmentationProbe(configSelector, parallelExecutor));
@@ -256,8 +256,8 @@ public final class TlsServerScanner
                     new DtlsApplicationFingerprintProbe(configSelector, parallelExecutor));
             registerProbeForExecution(
                     new DtlsIpAddressInCookieProbe(configSelector, parallelExecutor), false);
-            afterList.add(new DtlsRetransmissionAfterProbe<>());
-            afterList.add(new DestinationPortAfterProbe());
+            registerProbeForExecution(new DtlsRetransmissionAfterProbe<>());
+            registerProbeForExecution(new DestinationPortAfterProbe());
             // TLS-specific
             registerProbeForExecution(new HelloRetryProbe(configSelector, parallelExecutor));
             registerProbeForExecution(new RecordFragmentationProbe(configSelector, parallelExecutor));
@@ -270,7 +270,7 @@ public final class TlsServerScanner
             registerProbeForExecution(new DrownProbe(configSelector, parallelExecutor));
             registerProbeForExecution(
                     new ConnectionClosingProbe(configSelector, parallelExecutor), false);
-            afterList.add(new PoodleAfterProbe());
+            registerProbeForExecution(new PoodleAfterProbe());
         } else {
             String[] vulnsList = vulns.split(",");
             for (String v : vulnsList) {
@@ -354,7 +354,7 @@ public final class TlsServerScanner
                                 new BleichenbacherProbe(configSelector, parallelExecutor));
                         break;
                     case "TlsPoodle":
-                        afterList.add(new PoodleAfterProbe());
+                        registerProbeForExecution(new PoodleAfterProbe());
                         break;
                     case "InvalidCurve":
                         registerProbeForExecution(
@@ -383,39 +383,37 @@ public final class TlsServerScanner
                         registerProbeForExecution(new HelloRetryProbe(configSelector, parallelExecutor));
                         break;
                     case "Sweet32After":
-                        afterList.add(new Sweet32AfterProbe<>());
+                        registerProbeForExecution(new Sweet32AfterProbe<>());
                         break;
                     case "PoodleAfter":
-                        afterList.add(new PoodleAfterProbe());
+                        registerProbeForExecution(new PoodleAfterProbe());
                         break;
                     case "FreakAfter":
-                        afterList.add(new FreakAfterProbe<>());
+                        registerProbeForExecution(new FreakAfterProbe<>());
                         break;
                     case "LogjamAfter":
-                        afterList.add(new LogjamAfterProbe<>());
+                        registerProbeForExecution(new LogjamAfterProbe<>());
                         break;
                     case "ServerRandomnessAfter":
-                        afterList.add(new ServerRandomnessAfterProbe());
+                        registerProbeForExecution(new ServerRandomnessAfterProbe());
                         break;
                     case "EcPublicKeyAfter":
-                        afterList.add(new EcPublicKeyAfterProbe<>());
+                        registerProbeForExecution(new EcPublicKeyAfterProbe<>());
                         break;
                     case "DhValueAfter":
-                        afterList.add(new DhValueAfterProbe());
+                        registerProbeForExecution(new DhValueAfterProbe());
                         break;
                     case "PaddingOracleIdentificationAfter":
-                        afterList.add(new PaddingOracleIdentificationAfterProbe<>());
+                        registerProbeForExecution(new PaddingOracleIdentificationAfterProbe<>());
                         break;
                     case "RaccoonAttackAfter":
-                        afterList.add(new RaccoonAttackAfterProbe());
+                        registerProbeForExecution(new RaccoonAttackAfterProbe());
                         break;
                     default:
                         LOGGER.warn("Unkown vuln type: " + v);
                 }
             }
         }
-        // Init StatsWriter
-        setDefaultProbeWriter();
     }
 
     @Override
