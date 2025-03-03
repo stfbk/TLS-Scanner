@@ -131,11 +131,10 @@ public final class TlsServerScanner
         super(config.getExecutorConfig());
         this.config = config;
         closeAfterFinishParallel = true;
-        parallelExecutor =
-                ParallelExecutor.create(
-                        config.getExecutorConfig().getOverallThreads(),
-                        3,
-                        new NamedThreadFactory(config.getClientDelegate().getHost() + "-Worker"));
+        parallelExecutor = ParallelExecutor.create(
+                config.getExecutorConfig().getOverallThreads(),
+                3,
+                new NamedThreadFactory(config.getClientDelegate().getHost() + "-Worker"));
         this.configSelector = new ConfigSelector(config, parallelExecutor);
         setCallbacks();
         this.vulns = config.getVulns();
@@ -210,36 +209,33 @@ public final class TlsServerScanner
             registerProbeForExecution(new RandomnessProbe(configSelector, parallelExecutor));
         }
         if (vulns == "") {
-            addProbeToProbeList(new AlpnProbe(configSelector, parallelExecutor));
-            addProbeToProbeList(new AlpacaProbe(configSelector, parallelExecutor));
-            addProbeToProbeList(new CommonBugProbe(configSelector, parallelExecutor));
-            addProbeToProbeList(new SniProbe(configSelector, parallelExecutor));
-            addProbeToProbeList(new CompressionsProbe(configSelector, parallelExecutor));
-            addProbeToProbeList(new NamedGroupsProbe(configSelector, parallelExecutor));
-            addProbeToProbeList(new NamedCurvesOrderProbe(configSelector, parallelExecutor));
-            addProbeToProbeList(new CertificateProbe(configSelector, parallelExecutor));
-            addProbeToProbeList(new OcspProbe(configSelector, parallelExecutor));
-            addProbeToProbeList(new ProtocolVersionProbe(configSelector, parallelExecutor));
-            addProbeToProbeList(new CipherSuiteProbe(configSelector, parallelExecutor));
-            addProbeToProbeList(new DirectRaccoonProbe(configSelector, parallelExecutor));
-            addProbeToProbeList(new CipherSuiteOrderProbe(configSelector, parallelExecutor));
-            addProbeToProbeList(new ExtensionProbe(configSelector, parallelExecutor));
-            addProbeToProbeList(new ECPointFormatProbe(configSelector, parallelExecutor));
-            addProbeToProbeList(new ResumptionProbe(configSelector, parallelExecutor));
-            addProbeToProbeList(new RenegotiationProbe(configSelector, parallelExecutor));
-            addProbeToProbeList(new SessionTicketZeroKeyProbe(configSelector, parallelExecutor));
-            addProbeToProbeList(new HeartbleedProbe(configSelector, parallelExecutor));
-            addProbeToProbeList(new PaddingOracleProbe(configSelector, parallelExecutor));
-            addProbeToProbeList(new BleichenbacherProbe(configSelector, parallelExecutor));
-            addProbeToProbeList(new InvalidCurveProbe(configSelector, parallelExecutor));
-            addProbeToProbeList(new CertificateTransparencyProbe(configSelector, parallelExecutor));
-            addProbeToProbeList(new CcaSupportProbe(configSelector, parallelExecutor));
-            addProbeToProbeList(new CcaRequiredProbe(configSelector, parallelExecutor));
-            addProbeToProbeList(
+            registerProbeForExecution(new AlpnProbe(configSelector, parallelExecutor));
+            registerProbeForExecution(new AlpacaProbe(configSelector, parallelExecutor));
+            registerProbeForExecution(new CommonBugProbe(configSelector, parallelExecutor));
+            registerProbeForExecution(new SniProbe(configSelector, parallelExecutor));
+            registerProbeForExecution(new CompressionsProbe(configSelector, parallelExecutor));
+            registerProbeForExecution(new NamedGroupsProbe(configSelector, parallelExecutor));
+            registerProbeForExecution(new NamedCurvesOrderProbe(configSelector, parallelExecutor));
+            registerProbeForExecution(new CertificateProbe(configSelector, parallelExecutor));
+            registerProbeForExecution(new ProtocolVersionProbe(configSelector, parallelExecutor));
+            registerProbeForExecution(new CipherSuiteProbe(configSelector, parallelExecutor));
+            registerProbeForExecution(new DirectRaccoonProbe(configSelector, parallelExecutor));
+            registerProbeForExecution(new CipherSuiteOrderProbe(configSelector, parallelExecutor));
+            registerProbeForExecution(new ExtensionProbe(configSelector, parallelExecutor));
+            registerProbeForExecution(new ECPointFormatProbe(configSelector, parallelExecutor));
+            registerProbeForExecution(new ResumptionProbe(configSelector, parallelExecutor));
+            registerProbeForExecution(new RenegotiationProbe(configSelector, parallelExecutor));
+            registerProbeForExecution(new HeartbleedProbe(configSelector, parallelExecutor));
+            registerProbeForExecution(new PaddingOracleProbe(configSelector, parallelExecutor));
+            registerProbeForExecution(new BleichenbacherProbe(configSelector, parallelExecutor));
+            registerProbeForExecution(new InvalidCurveProbe(configSelector, parallelExecutor));
+            registerProbeForExecution(new CcaSupportProbe(configSelector, parallelExecutor));
+            registerProbeForExecution(new CcaRequiredProbe(configSelector, parallelExecutor));
+            registerProbeForExecution(
                     new SignatureAndHashAlgorithmProbe(configSelector, parallelExecutor));
-            addProbeToProbeList(
+            registerProbeForExecution(
                     new SignatureHashAlgorithmOrderProbe(configSelector, parallelExecutor));
-            addProbeToProbeList(new TlsFallbackScsvProbe(configSelector, parallelExecutor));
+            registerProbeForExecution(new TlsFallbackScsvProbe(configSelector, parallelExecutor));
             afterList.add(new Sweet32AfterProbe<>());
             afterList.add(new FreakAfterProbe<>());
             afterList.add(new LogjamAfterProbe<>());
@@ -250,30 +246,29 @@ public final class TlsServerScanner
             afterList.add(new RaccoonAttackAfterProbe());
             afterList.add(new CertificateSignatureAndHashAlgorithmAfterProbe());
             // DTLS-specific
-            addProbeToProbeList(new DtlsReorderingProbe(configSelector, parallelExecutor));
-            addProbeToProbeList(new DtlsFragmentationProbe(configSelector, parallelExecutor));
-            addProbeToProbeList(new DtlsHelloVerifyRequestProbe(configSelector, parallelExecutor));
-            addProbeToProbeList(new DtlsBugsProbe(configSelector, parallelExecutor));
-            addProbeToProbeList(new DtlsMessageSequenceProbe(configSelector, parallelExecutor));
-            addProbeToProbeList(new DtlsRetransmissionsProbe(configSelector, parallelExecutor));
-            addProbeToProbeList(
+            registerProbeForExecution(new DtlsReorderingProbe(configSelector, parallelExecutor));
+            registerProbeForExecution(new DtlsFragmentationProbe(configSelector, parallelExecutor));
+            registerProbeForExecution(new DtlsHelloVerifyRequestProbe(configSelector, parallelExecutor));
+            registerProbeForExecution(new DtlsBugsProbe(configSelector, parallelExecutor));
+            registerProbeForExecution(new DtlsMessageSequenceProbe(configSelector, parallelExecutor));
+            registerProbeForExecution(new DtlsRetransmissionsProbe(configSelector, parallelExecutor));
+            registerProbeForExecution(
                     new DtlsApplicationFingerprintProbe(configSelector, parallelExecutor));
-            addProbeToProbeList(
+            registerProbeForExecution(
                     new DtlsIpAddressInCookieProbe(configSelector, parallelExecutor), false);
             afterList.add(new DtlsRetransmissionAfterProbe<>());
             afterList.add(new DestinationPortAfterProbe());
             // TLS-specific
-            addProbeToProbeList(new HelloRetryProbe(configSelector, parallelExecutor));
-            addProbeToProbeList(new RecordFragmentationProbe(configSelector, parallelExecutor));
-            addProbeToProbeList(new EarlyCcsProbe(configSelector, parallelExecutor));
-            // addProbeToProbeList(new MacProbe(configSelector, parallelExecutor));
-            addProbeToProbeList(new CcaProbe(configSelector, parallelExecutor));
-            addProbeToProbeList(new EsniProbe(configSelector, parallelExecutor));
-            addProbeToProbeList(new TokenbindingProbe(configSelector, parallelExecutor));
-            addProbeToProbeList(new HttpHeaderProbe(configSelector, parallelExecutor));
-            addProbeToProbeList(new HttpFalseStartProbe(configSelector, parallelExecutor));
-            addProbeToProbeList(new DrownProbe(configSelector, parallelExecutor));
-            addProbeToProbeList(
+            registerProbeForExecution(new HelloRetryProbe(configSelector, parallelExecutor));
+            registerProbeForExecution(new RecordFragmentationProbe(configSelector, parallelExecutor));
+            registerProbeForExecution(new EarlyCcsProbe(configSelector, parallelExecutor));
+            // registerProbeForExecution(new MacProbe(configSelector, parallelExecutor));
+            registerProbeForExecution(new EsniProbe(configSelector, parallelExecutor));
+            registerProbeForExecution(new TokenbindingProbe(configSelector, parallelExecutor));
+            registerProbeForExecution(new HttpHeaderProbe(configSelector, parallelExecutor));
+            registerProbeForExecution(new HttpFalseStartProbe(configSelector, parallelExecutor));
+            registerProbeForExecution(new DrownProbe(configSelector, parallelExecutor));
+            registerProbeForExecution(
                     new ConnectionClosingProbe(configSelector, parallelExecutor), false);
             afterList.add(new PoodleAfterProbe());
         } else {
@@ -282,127 +277,110 @@ public final class TlsServerScanner
                 // System.out.println(v);
                 switch (v) {
                     case "CommonBug":
-                        addProbeToProbeList(new CommonBugProbe(configSelector, parallelExecutor));
+                        registerProbeForExecution(new CommonBugProbe(configSelector, parallelExecutor));
                         break;
                     case "Sni":
-                        addProbeToProbeList(new SniProbe(configSelector, parallelExecutor));
+                        registerProbeForExecution(new SniProbe(configSelector, parallelExecutor));
                         break;
                     case "Compressions":
-                        addProbeToProbeList(
+                        registerProbeForExecution(
                                 new CompressionsProbe(configSelector, parallelExecutor));
                         break;
                     case "NamedGroups":
-                        addProbeToProbeList(new NamedGroupsProbe(configSelector, parallelExecutor));
+                        registerProbeForExecution(new NamedGroupsProbe(configSelector, parallelExecutor));
                         break;
                     case "NamedCurvesOrder":
-                        addProbeToProbeList(
+                        registerProbeForExecution(
                                 new NamedCurvesOrderProbe(configSelector, parallelExecutor));
                         break;
                     case "Alpn":
-                        addProbeToProbeList(new AlpnProbe(configSelector, parallelExecutor));
+                        registerProbeForExecution(new AlpnProbe(configSelector, parallelExecutor));
                         break;
                     case "Alpaca":
-                        addProbeToProbeList(new AlpacaProbe(configSelector, parallelExecutor));
+                        registerProbeForExecution(new AlpacaProbe(configSelector, parallelExecutor));
                         break;
                     case "Certificate":
-                        addProbeToProbeList(new CertificateProbe(configSelector, parallelExecutor));
-                        break;
-                    case "Ocsp":
-                        addProbeToProbeList(new OcspProbe(configSelector, parallelExecutor));
+                        registerProbeForExecution(new CertificateProbe(configSelector, parallelExecutor));
                         break;
                     case "ProtocolVersion":
-                        addProbeToProbeList(
+                        registerProbeForExecution(
                                 new ProtocolVersionProbe(configSelector, parallelExecutor));
                         break;
                     case "CipherSuite":
-                        addProbeToProbeList(new CipherSuiteProbe(configSelector, parallelExecutor));
+                        registerProbeForExecution(new CipherSuiteProbe(configSelector, parallelExecutor));
                         break;
                     case "DirectRaccoon":
-                        addProbeToProbeList(
+                        registerProbeForExecution(
                                 new DirectRaccoonProbe(configSelector, parallelExecutor));
                         break;
                     case "CipherSuiteOrder":
-                        addProbeToProbeList(
+                        registerProbeForExecution(
                                 new CipherSuiteOrderProbe(configSelector, parallelExecutor));
                         break;
                     case "Extension":
-                        addProbeToProbeList(new ExtensionProbe(configSelector, parallelExecutor));
+                        registerProbeForExecution(new ExtensionProbe(configSelector, parallelExecutor));
                         break;
                     case "Tokenbinding":
-                        addProbeToProbeList(
+                        registerProbeForExecution(
                                 new TokenbindingProbe(configSelector, parallelExecutor));
                         break;
                     case "HttpHeader":
-                        addProbeToProbeList(new HttpHeaderProbe(configSelector, parallelExecutor));
+                        registerProbeForExecution(new HttpHeaderProbe(configSelector, parallelExecutor));
                         break;
                     case "HttpFalseStart":
-                        addProbeToProbeList(
+                        registerProbeForExecution(
                                 new HttpFalseStartProbe(configSelector, parallelExecutor));
                         break;
                     case "ECPointFormat":
-                        addProbeToProbeList(
+                        registerProbeForExecution(
                                 new ECPointFormatProbe(configSelector, parallelExecutor));
                         break;
                     case "Resumption":
-                        addProbeToProbeList(new ResumptionProbe(configSelector, parallelExecutor));
+                        registerProbeForExecution(new ResumptionProbe(configSelector, parallelExecutor));
                         break;
                     case "Renegotiation":
-                        addProbeToProbeList(
+                        registerProbeForExecution(
                                 new RenegotiationProbe(configSelector, parallelExecutor));
                         break;
-                    case "SessionTicketZeroKey":
-                        addProbeToProbeList(
-                                new SessionTicketZeroKeyProbe(configSelector, parallelExecutor));
-                        break;
                     case "Heartbleed":
-                        addProbeToProbeList(new HeartbleedProbe(configSelector, parallelExecutor));
+                        registerProbeForExecution(new HeartbleedProbe(configSelector, parallelExecutor));
                         break;
                     case "PaddingOracle":
-                        addProbeToProbeList(
+                        registerProbeForExecution(
                                 new PaddingOracleProbe(configSelector, parallelExecutor));
                         break;
                     case "Bleichenbacher":
-                        addProbeToProbeList(
+                        registerProbeForExecution(
                                 new BleichenbacherProbe(configSelector, parallelExecutor));
                         break;
                     case "TlsPoodle":
                         afterList.add(new PoodleAfterProbe());
                         break;
                     case "InvalidCurve":
-                        addProbeToProbeList(
+                        registerProbeForExecution(
                                 new InvalidCurveProbe(configSelector, parallelExecutor));
                         break;
                     case "Drown":
-                        addProbeToProbeList(new DrownProbe(configSelector, parallelExecutor));
+                        registerProbeForExecution(new DrownProbe(configSelector, parallelExecutor));
                         break;
                     case "EarlyCcs":
-                        addProbeToProbeList(new EarlyCcsProbe(configSelector, parallelExecutor));
-                        break;
-                    case "Mac":
-                        addProbeToProbeList(new MacProbe(configSelector, parallelExecutor));
+                        registerProbeForExecution(new EarlyCcsProbe(configSelector, parallelExecutor));
                         break;
                     case "CcaSupport":
-                        addProbeToProbeList(new CcaSupportProbe(configSelector, parallelExecutor));
+                        registerProbeForExecution(new CcaSupportProbe(configSelector, parallelExecutor));
                         break;
                     case "CcaRequired":
-                        addProbeToProbeList(new CcaRequiredProbe(configSelector, parallelExecutor));
-                        break;
-                    case "Cca":
-                        addProbeToProbeList(new CcaProbe(configSelector, parallelExecutor));
+                        registerProbeForExecution(new CcaRequiredProbe(configSelector, parallelExecutor));
                         break;
                     case "Esni":
-                        addProbeToProbeList(new EsniProbe(configSelector, parallelExecutor));
-                        break;
-                    case "CertificateTransparency":
-                        addProbeToProbeList(
-                                new CertificateTransparencyProbe(configSelector, parallelExecutor));
+                        registerProbeForExecution(new EsniProbe(configSelector, parallelExecutor));
                         break;
                     case "RecordFragmentation":
-                        addProbeToProbeList(
+                        registerProbeForExecution(
                                 new RecordFragmentationProbe(configSelector, parallelExecutor));
                         break;
                     case "HelloRetry":
-                        addProbeToProbeList(new HelloRetryProbe(configSelector, parallelExecutor));
+                        registerProbeForExecution(new HelloRetryProbe(configSelector, parallelExecutor));
                         break;
                     case "Sweet32After":
                         afterList.add(new Sweet32AfterProbe<>());
@@ -514,8 +492,7 @@ public final class TlsServerScanner
         List<Guideline<ServerReport>> guidelines = new ArrayList<>();
         for (String guidelineName : guidelineFiles) {
             try {
-                InputStream guideLineStream =
-                        TlsServerScanner.class.getResourceAsStream("/guideline/" + guidelineName);
+                InputStream guideLineStream = TlsServerScanner.class.getResourceAsStream("/guideline/" + guidelineName);
                 guidelines.add((Guideline<ServerReport>) guidelineIO.read(guideLineStream));
             } catch (JAXBException | XMLStreamException ex) {
                 LOGGER.error("Unable to read guideline {} from file", guidelineName, ex);
@@ -547,8 +524,7 @@ public final class TlsServerScanner
     public boolean isConnectable() {
         try {
             Config tlsConfig = config.createConfig();
-            ConnectivityChecker checker =
-                    new ConnectivityChecker(tlsConfig.getDefaultClientConnection());
+            ConnectivityChecker checker = new ConnectivityChecker(tlsConfig.getDefaultClientConnection());
             return checker.isConnectable();
         } catch (Exception e) {
             LOGGER.warn("Could not test if we can connect to the server", e);
