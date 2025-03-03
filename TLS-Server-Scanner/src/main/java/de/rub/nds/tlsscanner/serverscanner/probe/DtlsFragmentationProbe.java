@@ -15,8 +15,8 @@ import de.rub.nds.tlsattacker.core.config.Config;
 import de.rub.nds.tlsattacker.core.constants.HandshakeMessageType;
 import de.rub.nds.tlsattacker.core.constants.MaxFragmentLength;
 import de.rub.nds.tlsattacker.core.constants.RunningModeType;
+import de.rub.nds.tlsattacker.core.dtls.DtlsHandshakeMessageFragment;
 import de.rub.nds.tlsattacker.core.protocol.message.ChangeCipherSpecMessage;
-import de.rub.nds.tlsattacker.core.protocol.message.DtlsHandshakeMessageFragment;
 import de.rub.nds.tlsattacker.core.protocol.message.FinishedMessage;
 import de.rub.nds.tlsattacker.core.state.State;
 import de.rub.nds.tlsattacker.core.workflow.ParallelExecutor;
@@ -100,8 +100,8 @@ public class DtlsFragmentationProbe extends TlsServerProbe {
         SendDynamicClientKeyExchangeAction action = new SendDynamicClientKeyExchangeAction();
         action.setConfiguredFragmentList(
                 List.of(
-                        new DtlsHandshakeMessageFragment(config, 20),
-                        new DtlsHandshakeMessageFragment(config, 20)));
+                        new DtlsHandshakeMessageFragment(20),
+                        new DtlsHandshakeMessageFragment(20)));
         trace.addTlsAction(action);
         trace.addTlsAction(new SendAction(new ChangeCipherSpecMessage(), new FinishedMessage()));
         trace.addTlsAction(new ReceiveAction(new ChangeCipherSpecMessage(), new FinishedMessage()));
@@ -131,8 +131,8 @@ public class DtlsFragmentationProbe extends TlsServerProbe {
         SendDynamicClientKeyExchangeAction action = new SendDynamicClientKeyExchangeAction();
         action.setConfiguredFragmentList(
                 List.of(
-                        new DtlsHandshakeMessageFragment(config, 20),
-                        new DtlsHandshakeMessageFragment(config, 20)));
+                        new DtlsHandshakeMessageFragment(20),
+                        new DtlsHandshakeMessageFragment(20)));
         trace.addTlsAction(action);
         trace.addTlsAction(new SendAction(new ChangeCipherSpecMessage(), new FinishedMessage()));
         trace.addTlsAction(new ReceiveAction(new ChangeCipherSpecMessage(), new FinishedMessage()));

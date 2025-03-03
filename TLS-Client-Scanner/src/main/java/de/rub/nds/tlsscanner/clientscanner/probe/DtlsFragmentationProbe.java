@@ -13,9 +13,9 @@ import de.rub.nds.scanner.core.probe.result.TestResult;
 import de.rub.nds.scanner.core.probe.result.TestResults;
 import de.rub.nds.tlsattacker.core.config.Config;
 import de.rub.nds.tlsattacker.core.constants.MaxFragmentLength;
+import de.rub.nds.tlsattacker.core.dtls.DtlsHandshakeMessageFragment;
 import de.rub.nds.tlsattacker.core.protocol.message.CertificateMessage;
 import de.rub.nds.tlsattacker.core.protocol.message.ClientHelloMessage;
-import de.rub.nds.tlsattacker.core.protocol.message.DtlsHandshakeMessageFragment;
 import de.rub.nds.tlsattacker.core.protocol.message.FinishedMessage;
 import de.rub.nds.tlsattacker.core.protocol.message.HelloVerifyRequestMessage;
 import de.rub.nds.tlsattacker.core.protocol.message.ServerHelloDoneMessage;
@@ -108,8 +108,8 @@ public class DtlsFragmentationProbe extends TlsClientProbe {
         SendAction action = new SendAction(new CertificateMessage());
         action.setConfiguredDtlsHandshakeMessageFragments(
                 List.of(
-                        new DtlsHandshakeMessageFragment(config, 20),
-                        new DtlsHandshakeMessageFragment(config, 20)));
+                        new DtlsHandshakeMessageFragment(20),
+                        new DtlsHandshakeMessageFragment(20)));
         trace.addTlsAction(action);
         trace.addTlsAction(new SendAction(new CertificateMessage()));
         trace.addTlsAction(new SendDynamicServerKeyExchangeAction());
@@ -144,8 +144,8 @@ public class DtlsFragmentationProbe extends TlsClientProbe {
         SendAction action = new SendAction(new CertificateMessage());
         action.setConfiguredDtlsHandshakeMessageFragments(
                 List.of(
-                        new DtlsHandshakeMessageFragment(config, 20),
-                        new DtlsHandshakeMessageFragment(config, 20)));
+                        new DtlsHandshakeMessageFragment(20),
+                        new DtlsHandshakeMessageFragment(20)));
         trace.addTlsAction(action);
         trace.addTlsAction(new SendAction(new CertificateMessage()));
         trace.addTlsAction(new SendDynamicServerKeyExchangeAction());
